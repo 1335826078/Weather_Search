@@ -4,11 +4,12 @@ import react from '@vitejs/plugin-react'
 import tailwindcss from '@tailwindcss/vite'
 
 export default defineConfig(({ mode }) => {
-  // 第三个参数传 '' 表示读取全部变量（含无 VITE_ 前缀的）
+  // 读取环境变量（含无 VITE_ 前缀的）
   const env = loadEnv(mode, process.cwd(), '')
 
   const appid = env.WEATHER_APPID
   const appsecret = env.WEATHER_APPSECRET
+  const apiBase = env.WEATHER_API_BASE
 
   return {
     plugins: [react(), tailwindcss()],
@@ -16,6 +17,12 @@ export default defineConfig(({ mode }) => {
       alias: {
         '@': fileURLToPath(new URL('./src', import.meta.url)),
       },
+    },
+    define: {
+      // 将环境变量注入到客户端代码
+      'import.meta.env.VITE_WEATHER_APPID': JSON.stringify(appid),
+      'import.meta.env.VITE_WEATHER_APPSECRET': JSON.stringify(appsecret),
+      'import.meta.env.VITE_WEATHER_API_BASE': JSON.stringify(apiBase || '/'),
     },
     server: {
       proxy: {

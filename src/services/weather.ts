@@ -36,8 +36,8 @@ function buildUrl(city: string): string {
   const cleanCity = city.replace(/[市区县]$/g, '')
   params.set('city', cleanCity)
 
-  // 开发环境使用代理，生产环境使用完整地址
-  const baseUrl = API_BASE === '/' ? '/api' : `${API_BASE}`
+  // 生产环境（Vercel）直接使用 API 基础 URL，开发环境使用代理
+  const baseUrl = import.meta.env.DEV ? '/api' : 'https://pddfps.tianqiapi.com'
 
   return `${baseUrl}?${params.toString()}`
 }

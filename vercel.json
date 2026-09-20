@@ -1,0 +1,19 @@
+{
+  "rewrites": [
+    {
+      "source": "/api/:path*",
+      "destination": "https://pddfps.tianqiapi.com/:path*"
+    }
+  ],
+  "headers": [
+    {
+      "source": "/api/:path*",
+      "headers": [
+        {
+          "key": "Accept",
+          "value": "application/json"
+        }
+      ]
+    }
+  ]
+}
